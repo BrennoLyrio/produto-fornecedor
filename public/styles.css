@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .fornecedor-item, .produto-item, .compra-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    margin-left: 10px;
+  }
+  

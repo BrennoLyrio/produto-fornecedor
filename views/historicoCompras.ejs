@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Compras</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar (coloque isso no topo de cada arquivo EJS) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Gestão de Compras</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/fornecedores">Fornecedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/produtos">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/compras">Compras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/historico_compras">Histórico de Compras</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Histórico de Compras</h2>
+        <!-- <form id="buscar-historico-form">
+            <input type="text" id="fornecedor-nome" placeholder="Nome do Fornecedor" required>
+            <button type="submit" class="btn btn-primary">Ver Histórico</button>
+          </form> -->
+          
+          <script>
+            document.getElementById('buscar-historico-form').addEventListener('submit', async function (event) {
+              event.preventDefault(); // Impede o envio padrão do formulário
+          
+              const fornecedorNome = document.getElementById('fornecedor-nome').value;
+          
+              try {
+                // Faz uma requisição para buscar o fornecedor pelo nome
+                const response = await fetch(`/buscar_historico?fornecedor=${encodeURIComponent(fornecedorNome)}`);
+                if (response.ok) {
+                  const fornecedor = await response.json();
+                  if (fornecedor && fornecedor.id) {
+                    // Redireciona para a página de histórico com o ID do fornecedor
+                    window.location.href = `/historico_compras/${fornecedor.id}`;
+                  } else {
+                    alert('Fornecedor não encontrado');
+                  }
+                } else {
+                  alert('Fornecedor não encontrado');
+                }
+              } catch (error) {
+                console.error('Erro ao buscar o fornecedor:', error);
+                alert('Erro ao buscar o fornecedor');
+              }
+            });
+          </script>
+
+        <div class="container mt-4">
+            <!-- <h2>Histórico de Compras</h2> -->
+            <div class="mt-4">
+                <% historicos.forEach(historico => { %>
+                    <div class="historico-item mb-3">
+                        <p>Fornecedor: <%= historico.fornecedor.nome %></p>
+                        <p>Produto: <%= historico.produto.nome %></p>
+                        <p>Quantidade: <%= historico.quantidade %></p>
+                        <p>Valor Total: R$ <%= (historico.quantidade * historico.produto.preco).toFixed(2) %></p><br>
+                        <p>---------------------------------------------------------------------------------</p><br>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
